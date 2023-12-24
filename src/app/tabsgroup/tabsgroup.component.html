@@ -1,17 +1,20 @@
-<mat-tab-group dynamicHeight>
-    <mat-tab label="first tab">
-      <!-- <div class="example-small-box mat-elevation-z4">
-        Small content
-      </div> -->
-      <DataTable></DataTable>
+  <mat-tab-group [selectedIndex]="selected.value"
+               (selectedIndexChange)="selected.setValue($event)">
+  @for (tab of tabs; track tab; let index = $index) {
+    <mat-tab [label]="tab">
+      <ng-template mat-tab-label>
+				<div class="col" style="margin-left: 20px;">{{tabs[index]}}</div>
+				<button *ngIf="tabs[index]!== 'First'" style="color:black ; " mat-icon-button (click)="removeTab(index)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </ng-template>
+    <div style="min-height: 100vh;">
+      <!-- dynamic content section here -->
+
+      <!-- <DataTable></DataTable> -->
+    </div>
+
+    
     </mat-tab>
-    <mat-tab label="second tab">
-      <!-- <div class="example-large-box mat-elevation-z4">
-        Large content
-      </div> -->
-      <DataTable></DataTable>
-    </mat-tab>
-    <mat-tab label="Hierarchy">
-        <dynamic-tree></dynamic-tree>
-    </mat-tab>
-  </mat-tab-group>
+  }
+</mat-tab-group>
