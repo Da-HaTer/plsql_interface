@@ -27,6 +27,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { TableService } from '../services/table.service';
+
 /**
  * @title Tab group with dynamically changing tabs
  */
@@ -49,8 +51,26 @@ import { MatIconModule } from '@angular/material/icon';
   ],
 })
 export class tabsgroup {
+  constructor(private table: TableService) {}
+
   tabs = ['First', 'Second', 'Third'];
   selected = new FormControl(0);
+  dynamicData: any[] = []//[]
+        // [{
+        //     chno: 1,
+        //     chnom: "John Doe",
+        //     grade: "PR",
+        //     statut: "P",
+        //     daterecrut : "2019-12-31T23:00:00Z",
+        //     salaire: 80000,
+        //     prime: 5000,
+        //     email: "john.doe@example.com",
+        //     supno: null,
+        //     labno: 1,
+        //     facno: 1
+        // }];
+  dynamicColumns: string[] = [] //[]
+  // ['chno', 'chnom', 'grade', 'statut', 'daterecrut', 'salaire', 'prime', 'email', 'supno', 'labno', 'facno'];
 
   addTab(selectAfterAdding: boolean) {
     this.tabs.push('New');
@@ -64,4 +84,21 @@ export class tabsgroup {
     this.tabs.splice(index, 1);
     this.selected.setValue(index);
   }
+
+
+
+  
+  ngOnInit() {
+    let data:any;
+    data=this.table.fetch_rows('chercheur').subscribe({
+      next: (processedData) => {
+        this.dynamicData=processedData.dynamicData;
+        this.dynamicColumns = Object.keys(this.dynamicData[0]);
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      }
+    });
+  }
+
 }

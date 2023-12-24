@@ -10,11 +10,8 @@
     </ng-template>
     <div style="min-height: 100vh;">
       <!-- dynamic content section here -->
-
-      <!-- <DataTable></DataTable> -->
+      <DataTable [displayedColumns]="dynamicColumns" [dataSourceData]="dynamicData"></DataTable>
     </div>
-
-    
     </mat-tab>
   }
 </mat-tab-group>
